@@ -2,13 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const TodoModel = require("./Models/Todo");
-
+require("dotenv").config();
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/test");
+mongoose.connect(process.env.MONGODB_URI);
 
 app.get("/get", (req, res) => {
   TodoModel.find()
@@ -39,6 +39,6 @@ app.post("/add", (req, res) => {
     .catch((err) => res.json(error));
 });
 
-app.listen(3001, () => {
-  console.log("Server is Running");
+app.listen(port, () => {
+  console.log(`Server is Running on port ${port}`);
 });
